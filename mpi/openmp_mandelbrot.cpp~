@@ -1,0 +1,24 @@
+#include "bits/stdc++.h"
+using namespace std;
+
+#define SIZE 4
+enum color{
+	RED,GREEN,BLUE,YELLOW,
+};
+
+int inSet(double creal,double cimage)  
+{  
+    int iterations = 0;  
+    double zreal=0,zimage=0;
+	double freal=0,fimage=0;
+    while ((freal*freal+fimage*fimage<4) && (iterations < 1000))  
+    {  
+		freal=zreal*zreal-zimage*zimage+creal;
+		fimage=2*zreal*zimage+cimage;
+		zreal=freal;
+		zimage=fimage;
+		iterations++;  
+    }  
+    return iterations;  
+}  
+

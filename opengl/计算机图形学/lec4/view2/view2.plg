@@ -1,0 +1,33 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: view2 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSPF32B.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/view2.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"D:\工作\教学\2016上学期\计算机图形学\2016讲义\lec4\view2\view2.c"
+]
+Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSPF32B.tmp" 
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSPF32C.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opengl32.lib glu32.lib glut32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/view2.pdb" /debug /machine:I386 /out:"Debug/view2.exe" /pdbtype:sept 
+".\Debug\view2.obj"
+]
+Creating command line "link.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSPF32C.tmp"
+<h3>Output Window</h3>
+Compiling...
+view2.c
+D:\工作\教学\2016上学期\计算机图形学\2016讲义\lec4\view2\view2.c(45) : warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void )'
+Linking...
+
+
+
+<h3>Results</h3>
+view2.exe - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>

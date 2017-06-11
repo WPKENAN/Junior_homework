@@ -1,0 +1,105 @@
+<body>
+    <canvas id="canvas" width="200" height="200"></canvas>
+    <script type="text/javascript" src="jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var width = canvas.width;
+        var height = canvas.height;
+
+        //绘制球
+        var circle = function (x,y,radius,fillCircle){
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI*2,false);
+            if(fillCircle){
+                ctx.fill();
+            }else{
+                ctx.stroke();
+            }
+        };
+
+        //球的属性
+        var Ball = function(){
+            this.x = width/2;
+            this.y = height/2;
+            this.xSpeed = 5;
+            this.ySpeed =0;
+        }
+
+        //给球的原型添加绘制球的方法，这样所有Ball的实例都有该方法
+        Ball.prototype.draw = function(){
+            circle(this.x , this.y , 10 , true);
+        };
+
+        //给球的原型添加移动方法，这样所有Ball的实例都有该方法
+        Ball.prototype.move = function(){
+            this.x += this.xSpeed;
+            this.y += this.ySpeed;
+            if (this.x < 0){
+                this.x = width;  //向左到达左边界之后我们让球从右边界开始继续向左移动
+            }else if(this.x > width){
+                this.x = 0;
+            }else if(this.y < 0){
+                this.y = height;
+            }else if(this.y > height){
+                this.y = 0;
+            }
+        };
+
+        // 添加键盘控制事件
+        Ball.prototype.setDirection = function(direction){
+            if(direction === "up"){
+                this.xSpeed = 0;
+                this.ySpeed = -5;
+            }else if (direction === "down"){
+                this.xSpeed = 0;
+                this.ySpeed = 5;
+            }else if(direction === "left"){
+                this.xSpeed = -5;
+                this.ySpeed = 0;
+            }else if(direction === "right"){
+                this.xSpeed = 5;
+                this.ySpeed = 0;
+            }else if(direction === "stop"){
+                this.xSpeed = 0;
+                this.ySpeed = 0;
+            }
+        };
+
+        var ball = new Ball();
+        //使用字符串更形象地代替keyCode
+        var keyActions = {
+            32: "stop",
+            37: "left",
+            38: "up",
+            39: "right",
+            40: "down"
+        }
+
+        ctx.beginPath();
+		ctx.arc(95,50,40,0,2*Math.PI);
+		ctx.stroke();
+		
+        // 间隔30毫秒的动画
+        setInterval(function(){
+            ctx.clearRect(0,0,width,height);
+            ball.draw();  //绘制球
+            ball.move();  //移动球的坐标，在下一次调用draw也就是30秒后再执行上面的draw函数时就会在新的位置绘制出新的球
+            ctx.strokeRect(0,0,width,height);  //每次都要绘制边框是因为每次都檫除了包括边框的整个画布
+        },200);
+		
+		//按下键盘的键，改变移动方向
+        //$("body").keydown(function(event){
+          //  var direction = keyActions[event.keyCode];
+            //ball.setDirection(direction);
+        //});
+		document.onkeydown=function(event){
+              var e = event || window.event || arguments.callee.caller.arguments[0];
+              var direction = keyActions[e.keyCode];
+              ball.setDirection(direction);
+       };
+		 
+
+
+    </script>
+</body>.

@@ -1,0 +1,86 @@
+#-*- coding:utf-8 -*-
+
+from numpy import *
+import cv2
+import sys
+import os
+
+path="lena.bmp"
+image=cv2.imread(path);
+b,g,r=cv2.split(image);
+
+#image_source=image.copy();
+
+m,n=r.shape;
+org=matrix(r,dtype='int16');
+
+
+def Dct(org,flag):
+    #行和列补全成为8*8的倍数
+    m_old,n_old=org.shape;
+    m_new=m_old;
+    n_new=n_old;
+    if m_old%4>0:
+        m_new=m_old+(4-m_old%4);
+    if n_old%4>0:
+        n_new=n_old+(4-n_old%4);
+    print "m_old=%d,n_old=%d"%(m_old,n_old)
+    print "m_new=%d,n_new=%d"%(m_new,n_new)
+    
+    #补全生成新的matrix矩阵
+    matrix_data=matrix(zeros([m_new,n_new]));
+    result=matrix(zeros([m_new,n_new]));
+    eight_matrix=matrix(zeros([4,4]));
+    translate_matrix=matrix(zeros([4,4]));
+
+    for i in range(m_new):
+        for j in range(n_new):
+            if i<m_old and j<n_old:
+                matrix_data[i,j]=org[i,j];
+
+    #对补全的matrix进行8*8dct运算
+    for p in range(m_new/4):
+        print "p:%d"%p
+        for q in range(n_new/4):
+            print "q:%d"%q
+            for i in range(4):
+                for j in range(4):
+                    pos_i=i+p*4;
+                    pos_j=j+q*4;
+
+                    eight_matrix[i,j]=matrix_data[pos_i,pos_j];
+
+            for i in range(4):
+                for j in range(4):
+                    pos_i=i+p*4;
+                    pos_j=j+q*4;
+
+                    if i==0:
+                        a=sqrt(1.0/4);
+                    else:
+                        a=sqrt(2.0/4);
+
+                    translate_matrix[i,j]=a*cos(pi*(j+0.5)*i/4.0);
+
+			if flag==0:
+            	Y=translate_matrix*eight_matrix*translate_matrix.transpose();
+            else:
+            	Y=translate_matrix.transpos()*eight_matrix*translate_matrix;
+
+            for i in range(4):
+                for j in range(4):
+                    pos_i=i+p*4;
+                    pos_j=j+q*4;
+
+                    result[pos_i,pos_j]=Y[i,j];
+
+
+    return result
+
+
+    
+org=matrix([[61,19,50,20],[82,26,61,45],[89,90,82,43],[93,59,53,97]])
+result=Dct(org,0)
+ 
+print result   
+print Dct_cv(result,1) 

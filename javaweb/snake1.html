@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learn</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var width = canvas.width;
+        var height = canvas.height;
+
+        //游戏面板看成是40个10*10的网格组成的
+        var blockSize = 10;//每个网格的大小
+        var widthInBlocks = width / blockSize;
+        var heightInBlocks = height / blockSize;
+
+        //每次贪吃蛇吃掉一个苹果的时候，分数加1
+        var score = 0; 
+
+        //创建一个drawBorder函数来绘制围绕画布的灰色边框，1个块（10 像素）那么宽。 
+        var drawBorder = function(){
+            ctx.fillStyle = "Gray";
+            //绘制4条边框
+            ctx.fillRect(0,0,width,blockSize);
+            ctx.fillRect(0,height-blockSize,width,blockSize);
+            ctx.fillRect(0,0,blockSize,height);
+            ctx.fillRect(width-blockSize,0,blockSize,height);
+        }
+
+        //编写记分函数
+        var drawScore = function(){
+            ctx.font = "20px Courier";
+            ctx.fillStyle = "Black";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top"; //文本左对齐
+            ctx.fillText("Score:"+score,blockSize,blockSize);
+        }
+
+        //结束游戏
+        var gameOver = function(){
+            clearInterval(intervalId);
+            ctx.font = "60px Courier";
+            ctx.fillStyle = "Black";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Game Over",width/2,height/2);
+        }
+
+        //绘制圆的方法
+        var circle = function(x,y,radius,fillCircle){
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI*2,false);
+            if(fillCircle){
+                ctx.fill();
+            }else{
+                ctx.stroke();
+            }
+        };
+
+        //Block构造方法
+        var Block = function(col,row){
+            this.col = col;
+            this.row = row;
+        };
+
+        //绘制方块
+        Block.prototype.drawSquare = function(color){
+            var x = this.col * blockSize;
+            var y = this.row * blockSize;
+            ctx.fillStyle = color;
+            ctx.fillRect(x,y,blockSize,blockSize);
+        }
+
+        //绘制圆封装成Block的原型方法
+        Block.prototype.drawCircle = function(color){
+            var centerX = this.col * blockSize + blockSize/2;
+            var centerY = this.row * blockSize + blockSize/2;
+            ctx.fillStyle = color;
+            circle(centerX,centerY,blockSize/2,true);
+        }
+
+        //检查Block是否再同一个位置已经是其他的Block了（如贪吃蛇前进，后面的块顶替前面块的位置，都是在同一个位置却是不同的块了）
+        Block.prototype.equal = function (otherBlock){
+            return this.col === otherBlock.col && this.row === otherBlock.row;
+        }
+
+        //贪吃蛇构造方法
+        var Snake = function (){
+            this.segments = [
+                new Block(7,5),
+                new Block(6,5),
+                new Block(5,5)
+            ];
+
+            this.direction = "right";
+            this.nextDirection = "right";
+        };
+
+        //绘制贪吃蛇身体的每一个网格部分
+        Snake.prototype.draw = function(){
+            for(var i=0;i < this.segments.length; i++){
+                this.segments[i].drawSquare("Blue");
+            }
+        };
+
+        //创建一个新的网格加到当前贪吃蛇前进方向的头部
+        Snake.prototype.move = function(){
+            var head = this.segments[0];
+            var newHead;
+            this.direction = this.nextDirection;
+            if(this.direction === "right"){
+                newHead = new Block(head.col+1,head.row);
+            }else if(this.direction === "down"){
+                newHead = new Block(head.col,head.row+1);
+            }else if(this.direction === "left"){
+                newHead = new Block(head.col-1,head.row);
+            }else if(this.direction === "up"){
+                newHead = new Block(head.col,head.row-1);
+            }
+
+            if (this.checkCollision(newHead)){
+                gameOver();
+                return;
+            }
+
+            this.segments.unshift(newHead);
+
+            if(newHead.equal(apple.position)){
+                score++;
+                apple.move();
+            }else{
+                this.segments.pop();
+            }
+        }
+
+        //检查蛇的头部是否碰到墙体或者吃到自己的尾巴
+        Snake.prototype.checkCollision = function(head){
+            var leftCollision = (head.col === 0);
+            var topCollision = (head.row === 0);
+            var rightCollision = (head.col === widthInBlocks-1);
+            var bottomCollision = (head.row === heightInBlocks-1);
+
+            var wallCollision = leftCollision || topCollision ||
+                rightCollision || bottomCollision;
+
+            var selfCollision = false;
+
+            for(var i=0;i<this.segments.length;i++){
+                if(head.equal(this.segments[i])){
+                    selfCollision = true;
+                }
+            }
+            return wallCollision || selfCollision;                
+        }
+
+        //根据按下的键盘决定贪吃蛇下次的移动方向
+        Snake.prototype.setDirection = function(newDirection){
+            if(this.direction === "up" && newDirection === "down" ){
+                return;
+            }else if(this.direction === "right" && newDirection === "left"){
+                return;
+            }else if(this.direction === "down" && newDirection === "up"){
+                return;
+            }else if(this.direction === "left" && newDirection === "right"){
+                return;
+            }
+            this.nextDirection = newDirection;
+        }
+
+        //苹果构造器
+        var Apple = function(){
+            this.position = new Block(10,10);
+        };
+
+        //添加原型方法，在苹果的坐标属性的位置上绘制一个苹果
+        Apple.prototype.draw = function(){
+            this.position.drawCircle("LimeGreen");
+        };
+
+        //移动苹果到一个新的随机位置
+        Apple.prototype.move = function(){
+            var randomCol = Math.floor(Math.random()*(widthInBlocks-2))+1;
+            var randomRow = Math.floor(Math.random()*(heightInBlocks-2))+1;
+            this.position = new Block(randomCol,randomRow);
+        };
+
+        //游戏开始时，创建贪吃蛇和苹果
+        var snake = new Snake();
+        var apple = new Apple();
+
+        //游戏动画,加载script便签就得到间歇调用的执行。其他代码比如函数定义也是执行了，只不过都是函数定义
+        var intervalId = setInterval(function(){
+            ctx.clearRect(0,0,width,height);
+            drawScore();
+            snake.move();
+            snake.draw();
+            apple.draw();
+            drawBorder();
+        },100);
+
+        //keyCode用更形象的字符串来表示方向
+        var directions = {
+            37: "left",
+            38: "up",
+            39: "right",
+            40: "down"
+        };
+        
+        //获取键盘事件
+        document.onkeydown=function(event){
+              var e = event || window.event || arguments.callee.caller.arguments[0];
+              var newDirection = directions[e.keyCode];
+		        if(newDirection !== undefined){
+		            snake.setDirection(newDirection);
+		        }
+        };
+
+//        $("body").keydown(function(event){
+//            var newDirection = directions[event.keyCode];
+//            if(newDirection !== undefined){
+ //               snake.setDirection(newDirection);
+   //         }
+     //   });
+     
+    </script>
+</body>
+</html>

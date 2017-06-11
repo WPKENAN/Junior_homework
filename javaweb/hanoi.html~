@@ -1,0 +1,93 @@
+<html class="no-js" lang="zh"><!--<![endif]--><head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>纯javascript实现汉诺塔可视化小游戏效果演示_jQuery之家-自由分享jQuery、html5、css3的插件库</title>
+	<meta name="keywords" content="汉诺塔,小游戏,汉诺塔网页游戏,纯js,javascript,汉诺塔游戏">
+	<meta name="description" content="纯javascript实现汉诺塔可视化小游戏效果演示。">
+	<link rel="shortcut icon" href="http://www.htmleaf.com/favicon.ico">
+	<link rel="apple-touch-icon" href="http://www.htmleaf.com/templets/default/images/ico/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://www.htmleaf.com/templets/default/images/ico/apple-touch-icon-72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://www.htmleaf.com/templets/default/images/ico/apple-touch-icon-114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://www.htmleaf.com/templets/default/images/ico/apple-touch-icon-144.png">
+	<link rel="stylesheet" type="text/css" href="http://www.htmleaf.com/templets/default/css/htmleaf-demo.min.css">
+	<!--[if lt IE 9]>
+      <script src="http://www.htmleaf.com/assets/js/html5shiv.min.js"></script>
+      <script src="http://www.htmleaf.com/assets/js/respond.min.js"></script>
+    	<![endif]-->
+</head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div>
+	<div class="htmleaf-container">
+		<div class="htmleaf-container--header">
+			<div class="logo">
+				<a href="http://www.htmleaf.com/"><img src="http://www.htmleaf.com/templets/default/images/logo.svg" alt="jQuery之家"></a>
+			</div>
+			<h1>纯javascript实现汉诺塔可视化小游戏效果演示</h1>
+			<div class="responsive">
+                    <a href="#" class="desktop active" title="在桌面浏览器中预览"></a> 
+                    <a href="#" class="tabletlandscape" title="平板Landscape模式 (1024x768)"></a> 
+                    <a href="#" class="tabletportrait" title="平板Portrait模式 (768x1024)"></a> 
+                    <a href="#" class="mobilelandscape" title="移动手机Landscape模式 (480x320)"></a>
+                    <a href="#" class="mobileportrait" title="移动手机Portrait模式 (320x480)"></a>
+                </div>
+			<div class="actions">
+		          <div class="action">
+		            <a href="http://www.htmleaf.com/html5/html5youxi/201508272484.html" class="button button--empty" title="返回下载页"><i class="fa fa-leaf"></i></a>
+		          </div>
+		        </div>
+		</div>
+		<div class="htmleaf--main">
+			<div class="htmleaf-container--side mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_1" class="mCustomScrollBox mCS-minimal mCSB_vertical mCSB_outside" tabindex="0"><div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; left: 0px; top: 0px;" dir="ltr">
+				<!--广告位-->
+				<div class="htmleaf-adv">
+					<h2 class="title">广告</h2>
+					<div>
+						
+				</div>
+				<!--相关插件-->
+				<div class="htmleaf-related">
+					<h2>相关插件</h2>
+				      <a href="http://www.htmleaf.com/html5/html5youxi/201507092197.html">
+  <img src="http://img.htmleaf.com/1507/201507091812.jpg" width="300" alt="HTML5响应式网页贪吃蛇小游戏" class="mCS_img_loaded">
+  <h3>HTML5响应式网页贪吃蛇小游戏</h3>
+</a>
+<a href="http://www.htmleaf.com/html5/html5youxi/201507262301.html">
+  <img src="http://img.htmleaf.com/1507/201507261613.jpg" width="300" alt="HTML5 canvas高性能打方块小游戏" class="mCS_img_loaded">
+  <h3>HTML5 canvas高性能打方块小游戏</h3>
+</a>
+				</div>
+			</div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 50px; height: 0px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 50px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+			<div class="htmleaf-container--content">
+				<iframe src="http://demo.htmleaf.com/1508/201508272100/index.html" id="iframe" height="949px"></iframe>
+			</div>
+		</div>
+	</div>
+	<script src="http://www.htmleaf.com/templets/default/js/htmleaf-demo.min.js"></script>
+	<script type="text/javascript">
+		IS_IPAD=navigator.userAgent.match(/iPad/i)!=null;
+		var t={desktop:"100%",tabletlandscape:1040,tabletportrait:788,mobilelandscape:480,mobileportrait:340,placebo:0};
+		jQuery(".responsive a").on("click",function(){
+		var e=jQuery(this);
+		for(device in t){
+			if(e.hasClass(device)){
+				clicked=device;
+				jQuery("#iframe").width(t[device]);
+				if(clicked==device){
+					jQuery(".responsive a").removeClass("active");
+					e.addClass("active")}}}
+		return false});
+		if(IS_IPAD){
+			$("#iframe").css("padding-bottom","60px")
+		}
+	</script>
+	<script type="text/javascript">
+		$(".htmleaf-container--side").mCustomScrollbar({
+			theme:"minimal"
+		});
+	</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fe7a3e6b56f1bd183761873eec17147ca' type='text/javascript'%3E%3C/script%3E"));
+</script><script src=" http://hm.baidu.com/h.js?e7a3e6b56f1bd183761873eec17147ca" type="text/javascript"></script>
+
+</body></html>

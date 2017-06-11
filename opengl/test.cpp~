@@ -1,0 +1,43 @@
+#include <GL/glut.h> // GLUT窗口库  
+  
+void myDisplay()  
+{  
+    glClear(GL_COLOR_BUFFER_BIT);     
+    glViewport(0,0,400,400);  
+  
+    glColor3f(1,0,0);  
+    glRectf(0,200,200,400);  
+  
+    glColor3f(0,1,0);  
+    glRectf(200,200,400,400);  
+  
+    glColor3f(0,0,1);  
+    glRectf(0,0,200,200);  
+  
+    glColor3f(0,0,0);  
+    glRectf(200,0,400,200);  
+  
+    glFlush();  
+}  
+  
+void Init()  
+{     
+    glClearColor(1,1,1,1);  
+    glMatrixMode(GL_PROJECTION);  
+    glLoadIdentity();  
+    gluOrtho2D(0,400,0,400);  
+}  
+  
+  
+int main(int argc, char *argv[])        
+{        
+    glutInit(&argc, argv);   //初始化GLUT    
+    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);      
+    glutInitWindowPosition(500, 200);        
+    glutInitWindowSize(500, 500);        
+    glutCreateWindow("OpenGL");     
+    Init();     
+    glutDisplayFunc(&myDisplay);   //回调函数     
+    glutMainLoop();    //持续显示，当窗口改变会重新绘制图形    
+    return 0;        
+} 
