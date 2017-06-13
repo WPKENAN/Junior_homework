@@ -5,7 +5,7 @@
 
 //#include "bits/stdc++.h" 
 //using namespace std;
-#define SIZE 4
+#define SIZE 1000
 int wp;
 enum color{
 	RED,GREEN,BLUE,YELLOW,
@@ -29,7 +29,7 @@ int inSet(double creal,double cimage)
 
 int mpi(int argc,char *argv[]){
 	double start,end;
-	printf("start_address:%lld\n",&start);
+//	printf("start_address:%lld\n",&start);
 //	start=clock();
     int *matrix[SIZE];  
 	double a,b;
@@ -49,7 +49,7 @@ int mpi(int argc,char *argv[]){
 	MPI_Comm_size(MPI_COMM_WORLD,&numprocs);
 	MPI_Comm_rank(MPI_COMM_WORLD,&myid);
 	MPI_Get_processor_name(processor_name,&namelen);
-	printf("n---->%d\n",&n);
+//	printf("n---->%d\n",&n);
 	if(myid==0){
 		start=MPI_Wtime();
 	}
@@ -60,42 +60,42 @@ int mpi(int argc,char *argv[]){
 		    {  
 		        double xv = ((double)x -(SIZE/2)) / (SIZE/4);  
 		        double yv = ((double)y -(SIZE/2)) / (SIZE/4);  
-//		        matrix[x][y] = inSet(xv,yv);  
-				matrix[x][y]=myid+10;
+		        matrix[x][y] = inSet(xv,yv);  
+//				matrix[x][y]=myid+10;
 		    }  
 		}
-		printf("%lld",&matrix);
-		for (int x =0; x<SIZE;x++)  
-		{  
-		    for (int y =0;y<SIZE;y++)  
-		    {
+//		printf("%lld",&matrix);
+//		for (int x =0; x<SIZE;x++)  
+//		{  
+//		    for (int y =0;y<SIZE;y++)  
+//		    {
 //				if(matrix[x][y]>-1)
 //		        printf("%d\n",matrix[x][y]);
-		    }  
-		}
+//		    }  
+//		}
 	if(myid==0){
 		end=MPI_Wtime();
-		printf("%lf\n",end-start);
+		printf("time=%lfms\n",(end-start)*1000);
 	}
-	printf("-----\n");
-	MPI_Barrier(MPI_COMM_WORLD);
-	for(int i=0;i<SIZE;i++){
-		for(int j=0;j<SIZE;j++){
-			printf("%d,%d,%d:%d ",myid,i,j,matrix[i][j]);
-		}
-		printf("\n");
-	}
+//	printf("-----\n");
+//	MPI_Barrier(MPI_COMM_WORLD);
+//	for(int i=0;i<SIZE;i++){
+//		for(int j=0;j<SIZE;j++){
+//			printf("%d,%d,%d:%d ",myid,i,j,matrix[i][j]);
+//		}
+//		printf("\n");
+//	}
 	MPI_Finalize();
-	b=clock();
-	printf("%lf,%lf time: %lf\n",b,a,b-a);
-	exit(0);
+//	b=clock();
+//	printf("%lf,%lf time: %lf\n",b,a,b-a);
+//	exit(0);
 	return 0;
 }
   
 int main(int argc,char *argv[])  
 {
-	printf("start\n");  
+//	printf("start\n");  
 	mpi(argc,argv);
-	printf("end2;\n");
+//	printf("end2;\n");
     return 0;  
 }

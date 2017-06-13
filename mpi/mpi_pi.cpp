@@ -2,7 +2,7 @@
 #include "mpi.h"
 using namespace std;
 #define PI 3.141592653589793238462643
-#define N 1e6
+//#define N 1e6
 double f(double x){
 	return (4.0/(1.0+x*x));
 }
@@ -17,7 +17,8 @@ int main(int argc,char *argv[]){
 	MPI_Comm_rank(comm,&rank);
 	
 	if(rank==0){
-		n=N;
+		cout << "请输入分割块数:" ;
+		cin >> n;
 		startwtime=MPI_Wtime();
 	}
 	MPI_Bcast(&n,1,MPI_INT,0,comm);
@@ -35,7 +36,7 @@ int main(int argc,char *argv[]){
 		cout << setprecision(16) <<  "pi is " << pi << endl;
 		cout << "Error is " << fabs(pi-PI) << endl;
 		endwtime=MPI_Wtime();
-		cout << "wall clock time = " << endwtime-startwtime << endl;
+		cout << "wall clock time = " << (endwtime-startwtime)*1000 << "ms" << endl;
 	}
 //	cout << rank << n << endl;
 	MPI_Finalize();
