@@ -40,10 +40,12 @@ def setK(eigValue, rate):
             break
     return i
 
-
-print "请输入信息量："
-rate=input();
-finalData = pca(dataMat,rate);
+while True:
+#    print "请输入信息量："
+    rate=input("请输入信息量：");
+    if rate==0:
+        break;
+    finalData = pca(dataMat,rate);
 #plt.scatter(dataMat.T[:1],dataMat.T[1:], color='red', s=20)
 #plt.scatter(finalData.T[:1],finalData.T[1:], color='blue', s=20)
 #plt.show()
