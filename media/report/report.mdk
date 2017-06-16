@@ -1,0 +1,452 @@
+Title       : 数字媒体技术
+Logo        : False
+BibTeX      : False
+Document Class : [a4paper, 12pt]ctexart
+
+
+#PCA
+##背景：
+在多元统计分析中，主成分分析（英语：Principal components analysis，PCA）是一种分析、简化数据集的技术。主成分分析经常用于减少数据集的维数，同时保持数据集中的对方差贡献最大的特征。这是通过保留低阶主成分，忽略高阶主成分做到的。这样低阶成分往往能够保留住数据的最重要方面。但是，这也不是一定的，要视具体应用而定。由于主成分分析依赖所给数据，所以数据的准确性对分析结果影响很大。
+
+##数学定义：
+PCA的数学定义是：一个正交化线性变换，把数据变换到一个新的坐标系统中，使得这一数据的任何投影的第一大方差在第一个坐标（称为第一主成分）上，第二大方差在第二个坐标（第二主成分）上，依次类推[4]。
+定义一个n × m的矩阵, XT为去平均值（以平均值为中心移动至原点）的数据，其行为数据样本，列为数据类别（注意，这里定义的是XT 而不是X）。则X的奇异值分解为X = WΣVT，其中m × m矩阵W是XXT的本征矢量矩阵， Σ是m × n的非负矩形对角矩阵，V是n × n的XTX的本征矢量矩阵。据此，
+
+
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a75edaf372a308b3538941ada0ba39dc6cc99a8c" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -4.171ex; width:19.963ex; height:9.509ex;" alt="
+\begin{align}
+\mathbf{Y}^\top &amp; = \mathbf{X}^\top\mathbf{W} \\
+&amp; = \mathbf{V}\mathbf{\Sigma}^\top\mathbf{W}^\top\mathbf{W} \\
+&amp; = \mathbf{V}\mathbf{\Sigma}^\top
+\end{align}
+">
+<br>
+当 m < n − 1时，V 在通常情况下不是唯一定义的，而Y 则是唯一定义的。W 是一个正交矩阵，YT是XT的转置，且YT的第一列由第一主成分组成，第二列由第二主成分组成，依此类推。
+为了得到一种降低数据维度的有效办法，我们可以利用WL把 X 映射到一个只应用前面L个向量的低维空间中去：
+<p>其中<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <msub>
+            <mi mathvariant="bold">Σ<!-- Σ --></mi>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mi mathvariant="bold">L</mi>
+            </mrow>
+          </msub>
+        </mrow>
+        <mo>=</mo>
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">I</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>L</mi>
+            <mo>×<!-- × --></mo>
+            <mi>m</mi>
+          </mrow>
+        </msub>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">Σ<!-- Σ --></mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {\Sigma _{L}} =\mathbf {I} _{L\times m}\mathbf {\Sigma } }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/22f993c190007a24d0373f688fce3fe3e9538f4e" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:13.488ex; height:2.509ex;" alt="\mathbf{\Sigma_L}=\mathbf{I}_{L\times m}\mathbf{\Sigma}"></span>，且<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">I</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>L</mi>
+            <mo>×<!-- × --></mo>
+            <mi>m</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {I} _{L\times m}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/aaf58f7a292fc1a37dc6d8511865c4e7ec1ca259" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:5.119ex; height:2.509ex;" alt="\mathbf{I}_{L\times m}"></span>为<span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>L</mi>
+        <mo>×<!-- × --></mo>
+        <mi>m</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle L\times m}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3cb272f76a6f0aa289c98bb2e7d2850979fff35f" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:6.495ex; height:2.176ex;" alt="L\times m"></span>的<a href="/wiki/%E5%96%AE%E4%BD%8D%E7%9F%A9%E9%99%A3" title="单位矩阵">单位矩阵</a>。</p>
+X 的单向量矩阵W相当于协方差矩阵的本征矢量 C = X XT,<br>
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/939e45cd4155fe655625ea60e85431633ec59656" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:21.153ex; height:2.676ex;" alt="\mathbf{X}\mathbf{X}^\top = \mathbf{W}\mathbf{\Sigma}\mathbf{\Sigma}^\top\mathbf{W}^\top">
+<p>通常，为了确保第一主成分描述的是最大方差的方向，我们会使用平均减法进行主成分分析。如果不执行平均减法，第一主成分有可能或多或少的对应于数据的平均值。另外，为了找到近似数据的最小均方误差，我们必须选取一个零均值<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[5]</a></sup>。</p>
+
+<p>假设零经验均值，数据集 <b>X</b> 的主成分<i>w</i><sub>1</sub>可以被定义为：</p>
+
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">w</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mrow class="MJX-TeXAtom-OP">
+              <mi>arg</mi>
+              <mspace width="thinmathspace"></mspace>
+              <mi mathvariant="normal">m</mi>
+              <mi mathvariant="normal">a</mi>
+              <mi mathvariant="normal">x</mi>
+            </mrow>
+            <mrow>
+              <mo fence="false" stretchy="false">∥<!-- ∥ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">w</mi>
+              </mrow>
+              <mo>∥<!-- ∥ --></mo>
+              <mo>=</mo>
+              <mn>1</mn>
+            </mrow>
+          </munder>
+        </mrow>
+        <mspace width="thinmathspace"></mspace>
+        <mi>Var</mi>
+        <mo>⁡<!-- ⁡ --></mo>
+        <mo fence="false" stretchy="false">{</mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">w</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msup>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">X</mi>
+        </mrow>
+        <mo fence="false" stretchy="false">}</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mrow class="MJX-TeXAtom-OP">
+              <mi>arg</mi>
+              <mspace width="thinmathspace"></mspace>
+              <mi mathvariant="normal">m</mi>
+              <mi mathvariant="normal">a</mi>
+              <mi mathvariant="normal">x</mi>
+            </mrow>
+            <mrow>
+              <mo fence="false" stretchy="false">∥<!-- ∥ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">w</mi>
+              </mrow>
+              <mo>∥<!-- ∥ --></mo>
+              <mo>=</mo>
+              <mn>1</mn>
+            </mrow>
+          </munder>
+        </mrow>
+        <mspace width="thinmathspace"></mspace>
+        <mi>E</mi>
+        <mrow>
+          <mo>{</mo>
+          <msup>
+            <mrow>
+              <mo>(</mo>
+              <msup>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="bold">w</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+                </mrow>
+              </msup>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">X</mi>
+              </mrow>
+              <mo>)</mo>
+            </mrow>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mn>2</mn>
+            </mrow>
+          </msup>
+          <mo>}</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {w} _{1}={\underset {\Vert \mathbf {w} \Vert =1}{\operatorname {\arg \,max} }}\,\operatorname {Var} \{\mathbf {w} ^{\top }\mathbf {X} \}={\underset {\Vert \mathbf {w} \Vert =1}{\operatorname {\arg \,max} }}\,E\left\{\left(\mathbf {w} ^{\top }\mathbf {X} \right)^{2}\right\}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d4d3590c66a628cbc7a8f5702bcbf6d3b0ca1cc8" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:52.862ex; height:6.009ex;" alt="\mathbf{w}_1
+ = \underset{\Vert \mathbf{w} \Vert = 1}{\operatorname{\arg\,max}}\,\operatorname{Var}\{ \mathbf{w}^\top \mathbf{X} \}
+ = \underset{\Vert \mathbf{w} \Vert = 1}{\operatorname{\arg\,max}}\,E\left\{ \left( \mathbf{w}^\top \mathbf{X}\right)^2 \right\}"></span></dd>
+</dl>
+<p>为了得到第 <i>k</i>个主成分，必须先从<b>X</b>中减去前面的 <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>k</mi>
+        <mo>−<!-- − --></mo>
+        <mn>1</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle k-1}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/21363ebd7038c93aae93127e7d910fc1b2e2c745" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.245ex; height:2.176ex;" alt="k - 1"></span> 个主成分：</p>
+
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mrow class="MJX-TeXAtom-ORD">
+              <mover>
+                <mi mathvariant="bold">X</mi>
+                <mo mathvariant="bold" stretchy="false">^<!-- ^ --></mo>
+              </mover>
+            </mrow>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">X</mi>
+        </mrow>
+        <mo>−<!-- − --></mo>
+        <munderover>
+          <mo>∑<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+            <mo>−<!-- − --></mo>
+            <mn>1</mn>
+          </mrow>
+        </munderover>
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">w</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <msubsup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">w</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+          </mrow>
+        </msubsup>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="bold">X</mi>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {\hat {X}} _{k-1}=\mathbf {X} -\sum _{i=1}^{k-1}\mathbf {w} _{i}\mathbf {w} _{i}^{\top }\mathbf {X} }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/2a818260139c07b0342da6e330ef3daa05860b5e" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:25.222ex; height:7.343ex;" alt="\mathbf{\hat{X}}_{k - 1}
+ = \mathbf{X} -
+ \sum_{i = 1}^{k - 1}
+ \mathbf{w}_i \mathbf{w}_i^\top \mathbf{X}"></span></dd>
+</dl>
+
+<p>然后把求得的第<i>k</i>个主成分带入数据集，得到新的数据集，继续寻找主成分。</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="bold">w</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>k</mi>
+          </mrow>
+        </msub>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <munder>
+            <mrow class="MJX-TeXAtom-OP">
+              <mi mathvariant="normal">a</mi>
+              <mi mathvariant="normal">r</mi>
+              <mi mathvariant="normal">g</mi>
+              <mspace width="thinmathspace"></mspace>
+              <mi mathvariant="normal">m</mi>
+              <mi mathvariant="normal">a</mi>
+              <mi mathvariant="normal">x</mi>
+            </mrow>
+            <mrow>
+              <mo fence="false" stretchy="false">∥<!-- ∥ --></mo>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mi mathvariant="bold">w</mi>
+              </mrow>
+              <mo>∥<!-- ∥ --></mo>
+              <mo>=</mo>
+              <mn>1</mn>
+            </mrow>
+          </munder>
+        </mrow>
+        <mspace width="thinmathspace"></mspace>
+        <mi>E</mi>
+        <mrow>
+          <mo>{</mo>
+          <msup>
+            <mrow>
+              <mo>(</mo>
+              <msup>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="bold">w</mi>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi mathvariant="normal">⊤<!-- ⊤ --></mi>
+                </mrow>
+              </msup>
+              <msub>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mover>
+                      <mi mathvariant="bold">X</mi>
+                      <mo mathvariant="bold" stretchy="false">^<!-- ^ --></mo>
+                    </mover>
+                  </mrow>
+                </mrow>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mi>k</mi>
+                  <mo>−<!-- − --></mo>
+                  <mn>1</mn>
+                </mrow>
+              </msub>
+              <mo>)</mo>
+            </mrow>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mn>2</mn>
+            </mrow>
+          </msup>
+          <mo>}</mo>
+        </mrow>
+        <mo>.</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbf {w} _{k}={\underset {\Vert \mathbf {w} \Vert =1}{\operatorname {arg\,max} }}\,E\left\{\left(\mathbf {w} ^{\top }\mathbf {\hat {X}} _{k-1}\right)^{2}\right\}.}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1e5b34fc82b6548b7d4662c3784665f565549d01" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:33.83ex; height:6.676ex;" alt="\mathbf{w}_k
+ = \underset{\Vert \mathbf{w} \Vert = 1}{\operatorname{arg\,max}}\,E\left\{
+ \left( \mathbf{w}^\top \mathbf{\hat{X}}_{k - 1}
+ \right)^2 \right\}."></span></dd>
+</dl>
+##算法实现一般过程：
+1. 求平均值以及做normalization
+2. 求协方差矩阵(Covariance Matrix)
+3. 求协方差矩阵的特征根和特征向量
+4. 选择主要成分（信息量）
+5. 转化得到降维的数据
+
+## 实验结果
+![PCA]
+[PCA]: images/PCA.png "PCA" { width:auto; max-width:90% }
+
+
+#JPEG压缩原理与DCT离散余弦变换
+##背景：
+DCT变换的全称是离散余弦变换(Discrete Cosine Transform)，主要用于将数据或图像的压缩，能够将空域的信号转换到频域上，具有良好的去相关性的性能。DCT变换本身是无损的，但是在图像编码等领域给接下来的量化、哈弗曼编码等创造了很好的条件，同时，由于DCT变换时对称的，所以，我们可以在量化编码后利用DCT反变换，在接收端恢复原始的图像信息。DCT变换在当前的图像分析已经压缩领域有着极为广大的用途，我们常见的JPEG静态图像编码以及MJPEG、MPEG动态编码等标准中都使用了DCT变换。
+
+<img src="http://img.blog.csdn.net/20160616194732891" height="400" width="700"  alt="这里写图片描述" title="">
+  
+
+##数学定义：
+
+###一维DCT变换
+一维DCT变换时二维DCT变换的基础，所以我们先来讨论下一维DCT变换。一维DCT变换共有8种形式，其中最常用的是第二种形式，
+由于其运算简单、适用范围广。我们在这里只讨论这种形式，其表达式如下：
+
+
+<img src="http://images.cnitblog.com/blog/661248/201408/311241107519673.png" alt="">
+
+
+其中，f(i)为原始的信号，F(u)是DCT变换后的系数，N为原始信号的点可以认为是一个补偿系数，可以使DCT变换矩阵为正交矩阵。
+
+###二维DCT变换
+二维DCT变换其实是在一维DCT变换的基础上在做了一次DCT变换，其公式如下：
+
+<img src="http://images.cnitblog.com/blog/661248/201408/311243394542578.png" alt="">
+<br>
+       由公式我们可以看出，上面只讨论了二维图像数据为方阵的情况，在实际应用中，如果不是方阵的数据一般都是补齐之后再做变换的，重构之后可以去掉补齐的部分，得到原始的图像信息，这个尝试一下，应该比较容易理解。
+
+另外，由于DCT变换高度的对称性，在使用Matlab进行相关的运算时，我们可以使用更简单的矩阵处理方式：
+
+<img src="http://images.cnitblog.com/blog/661248/201408/311244196418932.png" alt="">
+
+
+##JPEG压缩流程：
+1. 以8x8的图象块为基本单位进行编码
+2. 将RGB转换为亮度-色调-饱和度系统（YUV），并重新采样
+3. FDCT
+4. 量化
+5. 编码
+6. 解码
+7. 反量化
+8. IDCT
+9. 图像拼接
+
+##实验结果：
+**DCT:**<br>
+![dct]
+[dct]: images/dct.png "dct" { width:auto; max-width:90% }
+**IDCT:**<br>
+![idct]
+
+[idct]: images/idct.png "idct" { width:auto; max-width:90% }
+
+**压缩率：10**<br>
+<img src="http://img.blog.csdn.net/20160616200651445" alt="这里写图片描述" title="">
+
+
+<br>
+**压缩率：50**<br>
+<img src="http://img.blog.csdn.net/20160616200710194" alt="这里写图片描述" title="">
+<br>
+JPEG压缩比例，就是通过控制量化的多少来控制。比如，上面的量化矩阵Q，如果我把矩阵的每个数都double一下，那是不是会出现更多的0？！说不定都只有G(0, 0)非0，其他都是0，如果这样，那编码时就可以更省空间啦，N个0只要一个游程编码搞定，数据量超小。但也意味着，恢复时，会带来更多的误差，图像质量也会变差了。
+
+
+
+
+# Madoko 
+
+Madoko is a fast markdown processor for writing professional articles
+with a focus on simplicity and plain text readability.
+
+* Read the [reference manual].
+* Explore the upper-right toolbox menu to discover how Markdown works. 
+* `Alt-Q` reformats the current paragraph.
+
+Enjoy!
+
+[reference manual]: http://research.microsoft.com/en-us/um/people/daan/madoko/doc/reference.html  "Madoko reference manual"
