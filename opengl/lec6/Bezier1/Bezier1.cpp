@@ -1,4 +1,4 @@
-#include<gl/glut.h>
+#include<GL/glut.h>
 typedef struct{
 	float x,y,z;
 }Point;
@@ -64,8 +64,9 @@ void ChangeSize(GLsizei w,GLsizei h)
 	glLoadIdentity();
 	
 }
-int main()
+int main(int argc,char *argv[])
 {
+	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
 	glutCreateWindow("DrawBezier");
 	

@@ -1,4 +1,4 @@
-#include<gl/glut.h>
+#include<GL/glut.h>
 float ctrlpoints[4][3]= {{-4.0,-4.0,0.0},{-2.0,4.0,0.0},{2.0,-4.0,0.0},{4.0,4.0,0.0}};
 void init()
 {
@@ -54,8 +54,9 @@ void ChangeSize(GLsizei w,GLsizei h)
 	glLoadIdentity();
 	
 }
-int main()
+int main(int argc,char *argv[])
 {
+	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
 	glutCreateWindow("DrawBezier");
 	

@@ -1,4 +1,4 @@
-#include <gl/glut.h>
+#include <GL/glut.h>
 typedef struct{
 	float x,y;
 }point;
@@ -64,15 +64,16 @@ void ChangeSize(GLsizei w,GLsizei h)
 
 	aspectRatio = (GLfloat)w/(GLfloat)h;
 	if(w<=h)
-		glOrtho(-1.0,30.0,-1.0/aspectRatio,10.0/aspectRatio,1.0,-1.0);
+		glOrtho(-1.0,5.0,-1.0/aspectRatio,5.0/aspectRatio,1.0,-1.0);
 	else
-		glOrtho(-1.0*aspectRatio,30.0*aspectRatio,-1.0,10.0,1.0,-1.0);
+		glOrtho(-1.0*aspectRatio,5.0*aspectRatio,-1.0,5.0,1.0,-1.0);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
-int main()
+int main(int argc,char *argv[])
 {
+	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
 	glutCreateWindow("DrawCurve");
 	init();
